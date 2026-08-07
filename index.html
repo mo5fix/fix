@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>CSSFontFace UAF Exploit (PS5 Mode)</title>
+    <style>
+        /* التنسيق الجديد لجعل الصورة متناسقة بالمنتصف */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+        }
+        .ps5-controller {
+            width: 350px; /* حجم مناسب لذراع التحكم */
+            height: auto;
+            margin: 20px auto;
+            display: block;
+            filter: drop-shadow(0px 0px 15px #003791); /* إضاءة زرقاء خفيفة تحاكي البلايستيشن */
+        }
+        .status-text {
+            font-size: 1.2rem;
+            color: #00ea1e; /* لون أخضر للحالة الجاهزة */
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CSSFontFace UAF Exploit</h1>
+    <h3>Running on:</h3>
+    <p>[-] netctrl</p>
+    <p>[-] lapse</p>
+    <p>Jeilbrek - Auto Jailbreak</p>
+    
+    <!-- تم تغيير الصورة هنا لرابط مباشر لذراع تحكم PS5 شفاف الخلفية -->
+    <img src="https://playstation.com" alt="PS5 Controller" class="ps5-controller">
+
+    <div class="status-text">
+        Ready. Awaiting execution...
+    </div>
+
+</body>
+</html>
