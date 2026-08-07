@@ -4,38 +4,46 @@
     <meta charset="UTF-8">
     <title>i-FiX - CSSFontFace UAF Exploit</title>
     <style>
-        /* التنسيق الجديد لجعل الصورة متناسقة بالمنتصف */
+        /* تم تعديل الخلفية هنا لتصبح متدرجة بألوان واجهة البلايستيشن الزرقاء */
         body {
-            background-color: #121212;
+            background: radial-gradient(circle, #003791 0%, #001c4d 100%);
             color: #ffffff;
             font-family: Arial, sans-serif;
             text-align: center;
             padding-top: 50px;
+            margin: 0;
+            height: 100vh;
         }
         .ps5-controller {
             width: 350px; /* حجم مناسب لذراع التحكم */
             height: auto;
             margin: 20px auto;
             display: block;
-            filter: drop-shadow(0px 0px 15px #003791); /* إضاءة زرقاء تحاكي البلايستيشن */
+            /* تم تعديل الإضاءة الخلفية للذراع لتتناسق مع الواجهة الجديدة */
+            filter: drop-shadow(0px 0px 25px #0070d1); 
         }
         .status-text {
             font-size: 1.2rem;
             color: #00ea1e; /* لون أخضر للحالة الجاهزة */
             margin-top: 20px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 234, 30, 0.5);
+        }
+        h1, h3, p {
+            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
         }
     </style>
 </head>
 <body>
 
-    <!-- تم تعديل الاسم هنا ليصبح i-FiX -->
+    <!-- اسم الواجهة -->
     <h1>i-FiX</h1>
     <h3>Running on:</h3>
     <p>[-] netctrl</p>
     <p>[-] lapse</p>
     <p>Jeilbrek - Auto Jailbreak</p>
     
-    <!-- تم تغيير الرابط إلى رابط مباشر للصورة لتعمل بدون مشاكل -->
+    <!-- رابط الصورة المباشر والمستقر لذراع PS5 -->
     <img src="https://ctfassets.net" alt="PS5 Controller" class="ps5-controller">
 
     <div class="status-text">
