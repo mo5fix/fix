@@ -1,149 +1,46 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" manifest="cache.manifest">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>i-FiX - CSSFontFace UAF Exploit</title>
-    <style>
-        /* تصميم مسطح خفيف لضمان استقرار ذاكرة المتصفح للـ PS4 */
-        body {
-            background-color: #001c4d;
-            color: #ffffff;
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            margin: 0;
-            direction: ltr;
-        }
-
-        h1 {
-            color: #0070d1;
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-        }
-
-        .info-box {
-            background: rgba(0, 0, 0, 0.4);
-            padding: 10px;
-            border-radius: 5px;
-            display: inline-block;
-            margin-bottom: 20px;
-            border: 1px solid #0070d1;
-        }
-
-        .select-container {
-            margin: 20px auto;
-        }
-
-        select {
-            padding: 12px;
-            font-size: 1.1rem;
-            background-color: #121212;
-            color: #ffffff;
-            border: 2px solid #0070d1;
-            border-radius: 5px;
-            width: 80%;
-            max-width: 300px;
-        }
-
-        /* شريط التحميل الأوتوماتيكي */
-        .progress-box {
-            width: 80%;
-            max-width: 300px;
-            background-color: #222;
-            border: 1px solid #555;
-            height: 15px;
-            margin: 25px auto;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background-color: #00ea1e; /* يبدأ باللون الأخضر كدليل على التشغيل الفوري */
-            transition: width 0.05s ease-out;
-        }
-
-        .status-text {
-            font-size: 1.2rem;
-            color: #ffff5c;
-            font-weight: bold;
-            margin-top: 15px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSSFontFace exploit</title>
+  <link rel="stylesheet" href="includes/style.css">
 </head>
 <body>
 
-    <h1>i-FiX</h1>
-    
-    <div class="info-box">
-        <strong>Running on:</strong> netctrl | lapse | Auto Jailbreak
+  <h1>CSSFontFace UAF Exploit</h1>
+  <h3 id="UA">Running on:</h3>
+
+  <hr>
+
+  <div class="btn-container">
+    <form id="kernel-options">
+      <input type="radio" name="kernel" id="netctrl-exploit" value="netctrl">
+      <label for="netctrl-exploit">NetCtrl</label>
+      <input type="radio" name="kernel" id="lapse-exploit" value="lapse">
+      <label for="lapse-exploit">Lapse</label>
+    </form>
+    <button id="jeilbrek">Jeilbrek</button>
+    <div class="autoJb">
+      <label for="autoJbInput" id="autoJbLabel">Auto Jailbreak</label>
+      <input class="mt-2" id="autoJbInput" type="checkbox">
+    </div>
+  </div>
+
+  <div class="main-layout">
+    <div class="media-box">
+      <img src="includes/cat.jpg" alt="A cat staring at you">
     </div>
 
-    <!-- تم جعل خيار جولد هين هو المختار تلقائياً باستخدام التابع selected -->
-    <div class="select-container">
-        <select id="payloadSelect" disabled>
-            <option value="goldhen" selected>GoldHEN v2.4b</option>
-            <option value="ftp">FTP Server</option>
-            <option value="backup">Database Backup</option>
-            <option value="linux">Linux Loader</option>
-        </select>
-    </div>
+    <pre id="console">Ready. Awaiting execution...
+  </pre>
 
-    <!-- شريط التحميل الأوتوماتيكي -->
-    <div class="progress-box">
-        <div id="ps4Bar" class="progress-fill"></div>
-    </div>
 
-    <!-- نصوص الحالة التفاعلية تلقائياً -->
-    <div id="ps4Status" class="status-text">
-        Initializing CSSFontFace Exploit...
-    </div>
+  </div>
 
-    <script>
-        // دالة التشغيل التلقائي فور تحميل المتصفح للملف بالكامل
-        window.onload = function() {
-            var ps4Bar = document.getElementById("ps4Bar");
-            var ps4Status = document.getElementById("ps4Status");
-            var progressWidth = 0;
-
-            ps4Status.innerHTML = "Exploit Triggered! Loading GoldHEN v2.4b...";
-            ps4Status.style.color = "#0070d1";
-
-            // عداد أوتوماتيكي سريع وآمن متوافق مع نظام كاش متصفح PS4
-            var progressInterval = setInterval(function() {
-                if (progressWidth >= 100) {
-                    clearInterval(progressInterval);
-                    ps4Status.innerHTML = "Jailbreak Success! GoldHEN Loaded.";
-                    ps4Status.style.color = "#00ea1e";
-                    
-                    // استدعاء دالة تشغيل الثغرة الفعلية لجهازك تلقائياً هنا
-                    triggerPS4Exploit();
-                } else {
-                    progressWidth += 4; // سرعة تحميل أوتوماتيكية متزنة لعدم حدوث عطب بنظام الويب كيت
-                    ps4Bar.style.width = progressWidth + "%";
-                }
-            }, 50);
-        };
-
-        // دالة حقن ثغرة الـ CSSFontFace الحقيقية لمتصفح الـ PS4
-        function triggerPS4Exploit() {
-            console.log("Launching GoldHEN payload into WebKit memory...");
-            
-            // كود تهيئة ذاكرة المتصفح للثغرة (UAF Stack Spray)
-            try {
-                var fontFace = new FontFace("ExploitFont", "local('Arial')");
-                fontFace.load().then(function() {
-                    // هنا يتم وضع كود الـ ROP chain أو استدعاء ملف الـ exploit.js الفعلي لجهازك
-                }).catch(function(e){
-                    // تجاوز أخطاء المتصفح للحفاظ على استقرار الواجهة
-                });
-            } catch(err) {
-                // منع انهيار الصفحة وتجميد المتصفح في حال فشل المحاولة الأولى
-            }
-        }
-    </script>
-
+  <script src="src/main.js"></script>
+  <script src="includes/script.js"></script>
 </body>
+
 </html>
