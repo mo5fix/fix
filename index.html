@@ -5,36 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>i-FiX - CSSFontFace UAF Exploit</title>
     <style>
-        /* واجهة متطورة متناسقة ومظلمة تحاكي البلايستيشن */
+        /* تنسيق الواجهة الرئيسية */
         body {
             background: radial-gradient(circle, #003791 0%, #001c4d 100%);
             color: #ffffff;
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding-top: 50px;
             margin: 0;
             height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             box-sizing: border-box;
+        }
+
+        /* حاوية التقسيم الداخلي لجعل الصورة على اليسار والمحتوى على اليمين */
+        .container {
+            display: flex;
+            flex-direction: row-reverse; /* يضع المحتوى يميناً والصورة يساراً */
+            align-items: center;
+            justify-content: space-between;
+            width: 85%;
+            max-width: 900px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* قسم النصوص والأزرار على اليمين */
+        .content-section {
+            flex: 1;
+            text-align: right;
+            padding-right: 20px;
+        }
+
+        /* قسم الصورة على اليسار */
+        .image-section {
+            flex: 1;
+            display: flex;
+            justify-content: center;
         }
         
         .ps5-controller {
             width: 280px;
             height: auto;
-            margin: 20px auto;
-            display: block;
             filter: drop-shadow(0px 0px 25px #0070d1); 
         }
 
-        /* شريط تحميل متطور */
+        /* تنسيق قائمة الاختيارات */
+        .select-menu {
+            width: 100%;
+            max-width: 250px;
+            padding: 10px;
+            margin: 15px 0;
+            font-size: 1rem;
+            color: #ffffff;
+            background-color: #001c4d;
+            border: 2px solid #0070d1;
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .select-menu option {
+            background-color: #001c4d;
+            color: #ffffff;
+        }
+
+        /* شريط التحميل */
         .progress-container {
-            width: 300px;
+            width: 100%;
+            max-width: 250px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            margin: 20px auto;
+            margin: 15px 0;
             padding: 3px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0px 0px 15px rgba(0, 112, 209, 0.4);
@@ -50,7 +96,7 @@
         }
 
         .status-text {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #00ea1e;
             margin-top: 10px;
             font-weight: bold;
@@ -65,41 +111,73 @@
 </head>
 <body>
 
-    <h1>i-FiX</h1>
-    <h3>Running on:</h3>
-    <p>[-] netctrl</p>
-    <p>[-] lapse</p>
-    <p>Jeilbrek - Auto Jailbreak</p>
-    
-    <!-- تم دمج الصورة نصياً لحل مشكلة عدم ظهورها نهائياً أوفلاين وأونلاين -->
-    <img src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 100 60' width='100' height='60'><path d='M20,15 C15,15 10,25 10,35 C10,45 15,50 22,50 C28,50 32,45 35,40 L65,40 C68,45 72,50 78,50 C85,50 90,45 90,35 C90,25 85,15 80,15 C70,15 65,25 65,25 L35,25 C35,25 30,15 20,15 Z' fill='%23ffffff'/><circle cx='22' cy='30' r='3' fill='%23121212'/><circle cx='22' cy='38' r='3' fill='%23121212'/><circle cx='18' cy='34' r='3' fill='%23121212'/><circle cx='26' cy='34' r='3' fill='%23121212'/><circle cx='78' cy='29' r='2.5' fill='%23ff5c5c'/><circle cx='78' cy='39' r='2.5' fill='%235cff5c'/><circle cx='73' cy='34' r='2.5' fill='%235c5cff'/><circle cx='83' cy='34' r='2.5' fill='%23ffff5c'/><rect x='42' y='32' width='16' height='4' rx='2' fill='%23121212'/></svg>" alt="PS5 Controller" class="ps5-controller">
+    <div class="container">
+        
+        <!-- قسم المحتوى والأوامر (يظهر في الجانب الأيمن) -->
+        <div class="content-section">
+            <h1>i-FiX</h1>
+            <h3>Running on:</h3>
+            <p>[-] netctrl</p>
+            <p>[-] lapse</p>
+            <p>Jeilbrek - Auto Jailbreak</p>
+            
+            <!-- قائمة الاختيارات الجديدة المفتوحة والتفاعلية -->
+            <select class="select-menu" id="exploitSelect">
+                <option value="default">-- اختر نوع الثغرة (Payload) --</option>
+                <option value="goldhen">GoldHEN v2.4b</option>
+                <option value="ftp">FTP Server</option>
+                <option value="backup">Database Backup</option>
+                <option value="linux">Linux Loader</option>
+            </select>
 
-    <!-- شريط التحميل -->
-    <div class="progress-container">
-        <div id="myBar" class="progress-bar"></div>
+            <!-- شريط التحميل والأوامر -->
+            <div class="progress-container">
+                <div id="myBar" class="progress-bar"></div>
+            </div>
+
+            <div id="status" class="status-text">
+                Ready. Awaiting execution...
+            </div>
+        </div>
+
+        <!-- قسم الصورة المدمجة (يظهر في الجانب الأيسر) -->
+        <div class="image-section">
+            <img src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 100 60' width='100' height='60'><path d='M20,15 C15,15 10,25 10,35 C10,45 15,50 22,50 C28,50 32,45 35,40 L65,40 C68,45 72,50 78,50 C85,50 90,45 90,35 C90,25 85,15 80,15 C70,15 65,25 65,25 L35,25 C35,25 30,15 20,15 Z' fill='%23ffffff'/><circle cx='22' cy='30' r='3' fill='%23121212'/><circle cx='22' cy='38' r='3' fill='%23121212'/><circle cx='18' cy='34' r='3' fill='%23121212'/><circle cx='26' cy='34' r='3' fill='%23121212'/><circle cx='78' cy='29' r='2.5' fill='%23ff5c5c'/><circle cx='78' cy='39' r='2.5' fill='%235cff5c'/><circle cx='73' cy='34' r='2.5' fill='%235c5cff'/><circle cx='83' cy='34' r='2.5' fill='%23ffff5c'/><rect x='42' y='32' width='16' height='4' rx='2' fill='%23121212'/></svg>" alt="PS5 Controller" class="ps5-controller">
+        </div>
+
     </div>
 
-    <div id="status" class="status-text">
-        Ready. Awaiting execution...
-    </div>
-
-    <!-- كود جافا سكريبت آمن ومستقر لتشغيل شريط التحميل فوراً -->
+    <!-- كود جافا سكريبت لتشغيل حركة التحميل والتفاعل مع القائمة -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var elem = document.getElementById("myBar");
             var statusTxt = document.getElementById("status");
+            var selectMenu = document.getElementById("exploitSelect");
             var width = 0;
+            var interval;
+
+            // دالة تشغيل شريط التحميل عند اختيار خيار معين
+            selectMenu.addEventListener("change", function() {
+                if(this.value !== "default") {
+                    width = 0;
+                    statusTxt.innerHTML = "Executing: " + this.options[this.selectedIndex].text + "...";
+                    statusTxt.style.color = "#0070d1";
+                    
+                    clearInterval(interval);
+                    interval = setInterval(frame, 30);
+                }
+            });
             
-            // دالة التحديث التلقائي للشريط
             function frame() {
                 if (width >= 100) {
-                    width = 0; // إعادة التحميل بشكل مستمر وحيوي
+                    clearInterval(interval);
+                    statusTxt.innerHTML = "Done! Exploit Loaded Successfully.";
+                    statusTxt.style.color = "#00ea1e";
                 } else {
                     width++;
                     elem.style.width = width + '%';
                 }
             }
-            setInterval(frame, 40); // سرعة حركة الـ Loading
         });
     </script>
 
