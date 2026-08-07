@@ -2,9 +2,10 @@
 <html lang="ar">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>i-FiX - CSSFontFace UAF Exploit</title>
     <style>
-        /* خلفية متدرجة بألوان واجهة البلايستيشن الزرقاء */
+        /* واجهة متطورة متناسقة ومظلمة تحاكي البلايستيشن */
         body {
             background: radial-gradient(circle, #003791 0%, #001c4d 100%);
             color: #ffffff;
@@ -13,41 +14,39 @@
             padding-top: 50px;
             margin: 0;
             height: 100vh;
-            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
         }
         
         .ps5-controller {
-            width: 350px;
+            width: 280px;
             height: auto;
             margin: 20px auto;
             display: block;
             filter: drop-shadow(0px 0px 25px #0070d1); 
         }
 
-        /* تصميم شريط الأوامر والتحميل */
+        /* شريط تحميل متطور */
         .progress-container {
             width: 300px;
             background-color: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            margin: 25px auto;
+            margin: 20px auto;
             padding: 3px;
             border: 1px solid rgba(255, 255, 255, 0.2);
             box-shadow: 0px 0px 15px rgba(0, 112, 209, 0.4);
+            overflow: hidden;
         }
 
         .progress-bar {
             width: 0%;
-            height: 8px;
+            height: 10px;
             background: linear-gradient(90deg, #0070d1, #00ea1e);
             border-radius: 8px;
-            animation: loadProgress 3s ease-in-out infinite;
-        }
-
-        /* حركة الشريط التلقائية */
-        @keyframes loadProgress {
-            0% { width: 0%; }
-            50% { width: 70%; }
-            100% { width: 100%; }
+            transition: width 0.1s linear;
         }
 
         .status-text {
@@ -60,7 +59,7 @@
 
         h1, h3, p {
             text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-            margin: 10px 0;
+            margin: 5px 0;
         }
     </style>
 </head>
@@ -72,17 +71,37 @@
     <p>[-] lapse</p>
     <p>Jeilbrek - Auto Jailbreak</p>
     
-    <!-- رابط بديل مباشر ومفتوح لذراع التحكم لضمان الظهور الفوري -->
-    <img src="https://githubusercontent.com" alt="PS5 Controller" class="ps5-controller">
+    <!-- تم دمج الصورة نصياً لحل مشكلة عدم ظهورها نهائياً أوفلاين وأونلاين -->
+    <img src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 100 60' width='100' height='60'><path d='M20,15 C15,15 10,25 10,35 C10,45 15,50 22,50 C28,50 32,45 35,40 L65,40 C68,45 72,50 78,50 C85,50 90,45 90,35 C90,25 85,15 80,15 C70,15 65,25 65,25 L35,25 C35,25 30,15 20,15 Z' fill='%23ffffff'/><circle cx='22' cy='30' r='3' fill='%23121212'/><circle cx='22' cy='38' r='3' fill='%23121212'/><circle cx='18' cy='34' r='3' fill='%23121212'/><circle cx='26' cy='34' r='3' fill='%23121212'/><circle cx='78' cy='29' r='2.5' fill='%23ff5c5c'/><circle cx='78' cy='39' r='2.5' fill='%235cff5c'/><circle cx='73' cy='34' r='2.5' fill='%235c5cff'/><circle cx='83' cy='34' r='2.5' fill='%23ffff5c'/><rect x='42' y='32' width='16' height='4' rx='2' fill='%23121212'/></svg>" alt="PS5 Controller" class="ps5-controller">
 
-    <!-- شريط تحميل الأوامر الجديد -->
+    <!-- شريط التحميل -->
     <div class="progress-container">
-        <div class="progress-bar"></div>
+        <div id="myBar" class="progress-bar"></div>
     </div>
 
-    <div class="status-text">
+    <div id="status" class="status-text">
         Ready. Awaiting execution...
     </div>
+
+    <!-- كود جافا سكريبت آمن ومستقر لتشغيل شريط التحميل فوراً -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var elem = document.getElementById("myBar");
+            var statusTxt = document.getElementById("status");
+            var width = 0;
+            
+            // دالة التحديث التلقائي للشريط
+            function frame() {
+                if (width >= 100) {
+                    width = 0; // إعادة التحميل بشكل مستمر وحيوي
+                } else {
+                    width++;
+                    elem.style.width = width + '%';
+                }
+            }
+            setInterval(frame, 40); // سرعة حركة الـ Loading
+        });
+    </script>
 
 </body>
 </html>
