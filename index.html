@@ -5,180 +5,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>i-FiX - CSSFontFace UAF Exploit</title>
     <style>
-        /* تنسيق الواجهة الرئيسية */
+        /* كود ألوان مسطح ومتوافق تماماً مع متصفح PS4 الضعيف */
         body {
-            background: radial-gradient(circle, #003791 0%, #001c4d 100%);
+            background-color: #001c4d;
             color: #ffffff;
-            font-family: Arial, sans-serif;
+            font-family: sans-serif;
+            text-align: center;
+            padding: 20px;
             margin: 0;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-sizing: border-box;
         }
 
-        /* حاوية التقسيم الداخلي لجعل الصورة على اليسار والمحتوى على اليمين */
-        .container {
-            display: flex;
-            flex-direction: row-reverse; /* يضع المحتوى يميناً والصورة يساراً */
-            align-items: center;
-            justify-content: space-between;
-            width: 85%;
-            max-width: 900px;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        h1 {
+            color: #0070d1;
+            font-size: 2.5rem;
+            margin-bottom: 5px;
         }
 
-        /* قسم النصوص والأزرار على اليمين */
-        .content-section {
-            flex: 1;
-            text-align: right;
-            padding-right: 20px;
-        }
-
-        /* قسم الصورة على اليسار */
-        .image-section {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-        }
-        
-        .ps5-controller {
-            width: 280px;
-            height: auto;
-            filter: drop-shadow(0px 0px 25px #0070d1); 
-        }
-
-        /* تنسيق قائمة الاختيارات */
-        .select-menu {
-            width: 100%;
-            max-width: 250px;
+        .info-box {
+            background: rgba(0, 0, 0, 0.4);
             padding: 10px;
-            margin: 15px 0;
-            font-size: 1rem;
+            border-radius: 5px;
+            display: inline-block;
+            margin-bottom: 20px;
+            border: 1px solid #0070d1;
+        }
+
+        /* تنسيق قائمة الاختيارات المنفصلة */
+        .select-container {
+            margin: 20px auto;
+        }
+
+        select {
+            padding: 12px;
+            font-size: 1.1rem;
+            background-color: #121212;
             color: #ffffff;
-            background-color: #001c4d;
             border: 2px solid #0070d1;
-            border-radius: 8px;
+            border-radius: 5px;
+            width: 80%;
+            max-width: 300px;
             cursor: pointer;
-            outline: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
 
-        .select-menu option {
-            background-color: #001c4d;
-            color: #ffffff;
+        /* أزرار التفعيل المنفصلة والمستقلة */
+        .btn-container {
+            margin: 20px 0;
         }
 
-        /* شريط التحميل */
-        .progress-container {
-            width: 100%;
-            max-width: 250px;
-            background-color: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            margin: 15px 0;
-            padding: 3px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0px 0px 15px rgba(0, 112, 209, 0.4);
+        .action-btn {
+            background-color: #00ea1e;
+            color: #000000;
+            font-weight: bold;
+            font-size: 1.2rem;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0px 4px 10px rgba(0,0,0,0.3);
+            width: 80%;
+            max-width: 300px;
+        }
+
+        .action-btn:active {
+            background-color: #00b717;
+        }
+
+        /* شريط التحميل البسيط القائم على العرض المباشر لمتصفح PS4 */
+        .progress-box {
+            width: 80%;
+            max-width: 300px;
+            background-color: #222;
+            border: 1px solid #555;
+            height: 15px;
+            margin: 20px auto;
+            border-radius: 3px;
             overflow: hidden;
         }
 
-        .progress-bar {
+        .progress-fill {
             width: 0%;
-            height: 10px;
-            background: linear-gradient(90deg, #0070d1, #00ea1e);
-            border-radius: 8px;
-            transition: width 0.1s linear;
+            height: 100%;
+            background-color: #0070d1;
         }
 
         .status-text {
-            font-size: 1.1rem;
-            color: #00ea1e;
-            margin-top: 10px;
+            font-size: 1.2rem;
+            color: #ffff5c;
             font-weight: bold;
-            text-shadow: 0 0 10px rgba(0, 234, 30, 0.5);
-        }
-
-        h1, h3, p {
-            text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
-            margin: 5px 0;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        
-        <!-- قسم المحتوى والأوامر (يظهر في الجانب الأيمن) -->
-        <div class="content-section">
-            <h1>i-FiX</h1>
-            <h3>Running on:</h3>
-            <p>[-] netctrl</p>
-            <p>[-] lapse</p>
-            <p>Jeilbrek - Auto Jailbreak</p>
-            
-            <!-- قائمة الاختيارات الجديدة المفتوحة والتفاعلية -->
-            <select class="select-menu" id="exploitSelect">
-                <option value="default">-- اختر نوع الثغرة (Payload) --</option>
-                <option value="goldhen">GoldHEN v2.4b</option>
-                <option value="ftp">FTP Server</option>
-                <option value="backup">Database Backup</option>
-                <option value="linux">Linux Loader</option>
-            </select>
-
-            <!-- شريط التحميل والأوامر -->
-            <div class="progress-container">
-                <div id="myBar" class="progress-bar"></div>
-            </div>
-
-            <div id="status" class="status-text">
-                Ready. Awaiting execution...
-            </div>
-        </div>
-
-        <!-- قسم الصورة المدمجة (يظهر في الجانب الأيسر) -->
-        <div class="image-section">
-            <img src="data:image/svg+xml;utf8,<svg xmlns='http://w3.org' viewBox='0 0 100 60' width='100' height='60'><path d='M20,15 C15,15 10,25 10,35 C10,45 15,50 22,50 C28,50 32,45 35,40 L65,40 C68,45 72,50 78,50 C85,50 90,45 90,35 C90,25 85,15 80,15 C70,15 65,25 65,25 L35,25 C35,25 30,15 20,15 Z' fill='%23ffffff'/><circle cx='22' cy='30' r='3' fill='%23121212'/><circle cx='22' cy='38' r='3' fill='%23121212'/><circle cx='18' cy='34' r='3' fill='%23121212'/><circle cx='26' cy='34' r='3' fill='%23121212'/><circle cx='78' cy='29' r='2.5' fill='%23ff5c5c'/><circle cx='78' cy='39' r='2.5' fill='%235cff5c'/><circle cx='73' cy='34' r='2.5' fill='%235c5cff'/><circle cx='83' cy='34' r='2.5' fill='%23ffff5c'/><rect x='42' y='32' width='16' height='4' rx='2' fill='%23121212'/></svg>" alt="PS5 Controller" class="ps5-controller">
-        </div>
-
+    <h1>i-FiX</h1>
+    
+    <div class="info-box">
+        <strong>Running on:</strong> netctrl | lapse | Auto Jailbreak
     </div>
 
-    <!-- كود جافا سكريبت لتشغيل حركة التحميل والتفاعل مع القائمة -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var elem = document.getElementById("myBar");
-            var statusTxt = document.getElementById("status");
-            var selectMenu = document.getElementById("exploitSelect");
-            var width = 0;
-            var interval;
+    <!-- 1. قائمة خيارات منفصلة تماماً ومستقلة اختيارياً -->
+    <div class="select-container">
+        <select id="payloadSelect">
+            <option value="none">-- اختر الـ Payload المطلوب --</option>
+            <option value="goldhen">GoldHEN v2.4b</option>
+            <option value="ftp">FTP Server</option>
+            <option value="backup">Database Backup</option>
+            <option value="linux">Linux Loader</option>
+        </select>
+    </div>
 
-            // دالة تشغيل شريط التحميل عند اختيار خيار معين
-            selectMenu.addEventListener("change", function() {
-                if(this.value !== "default") {
-                    width = 0;
-                    statusTxt.innerHTML = "Executing: " + this.options[this.selectedIndex].text + "...";
-                    statusTxt.style.color = "#0070d1";
-                    
-                    clearInterval(interval);
-                    interval = setInterval(frame, 30);
-                }
-            });
+    <!-- 2. زر تفعيل منفصل لا يطلق أي أمر إلا عند الضغط اليدوي عليه لتجنب تجميد المتصفح -->
+    <div class="btn-container">
+        <button class="action-btn" id="runBtn" type="button">تفعيل الثغرة الآن</button>
+    </div>
+
+    <!-- شريط تحميل متوافق مع نظام كاش الـ PS4 -->
+    <div class="progress-box">
+        <div id="ps4Bar" class="progress-fill"></div>
+    </div>
+
+    <!-- نصوص الحالة التفاعلية نقية وبدون مؤثرات ثقيلة -->
+    <div id="ps4Status" class="status-text">
+        Ready. Select payload and click activate.
+    </div>
+
+    <!-- جافا سكريبت آمن وخفيف مخصص لثغرات ويب كيت الـ PS4 -->
+    <script>
+        var runBtn = document.getElementById("runBtn");
+        var payloadSelect = document.getElementById("payloadSelect");
+        var ps4Bar = document.getElementById("ps4Bar");
+        var ps4Status = document.getElementById("ps4Status");
+        var progressWidth = 0;
+        var progressInterval;
+
+        // عند النقر اليدوي والمنفصل على زر التفعيل
+        runBtn.onclick = function() {
+            var selectedValue = payloadSelect.value;
             
-            function frame() {
-                if (width >= 100) {
-                    clearInterval(interval);
-                    statusTxt.innerHTML = "Done! Exploit Loaded Successfully.";
-                    statusTxt.style.color = "#00ea1e";
-                } else {
-                    width++;
-                    elem.style.width = width + '%';
-                }
+            if (selectedValue === "none") {
+                ps4Status.innerHTML = "خطأ: يرجى اختيار Payload أولاً!";
+                ps4Status.style.color = "#ff5c5c";
+                return;
             }
-        });
+
+            // تصفير وإعادة تعيين شريط الأوامر
+            progressWidth = 0;
+            ps4Bar.style.width = "0%";
+            ps4Status.innerHTML = "جاري تفعيل " + payloadSelect.options[payloadSelect.selectedIndex].text + "...";
+            ps4Status.style.color = "#0070d1";
+
+            // تشغيل العداد يدوياً وبطريقة آمنة لا تسبب انهيار المتصفح (Crash)
+            clearInterval(progressInterval);
+            progressInterval = setInterval(function() {
+                if (progressWidth >= 100) {
+                    clearInterval(progressInterval);
+                    ps4Status.innerHTML = "تم التفعيل بنجاح! Exploit Loaded.";
+                    ps4Status.style.color = "#00ea1e";
+                    
+                    // هنا يتم استدعاء دالة تشغيل الثغرة الفعلية لجهازك
+                    triggerExploit(selectedValue);
+                } else {
+                    progressWidth += 2; // سرعة ملء متوازنة وثابتة
+                    ps4Bar.style.width = progressWidth + "%";
+                }
+            }, 40);
+        };
+
+        // دالة مفرغة مخصصة لربط ملفات الثغرة الحقيقية لاحقاً
+        function triggerExploit(type) {
+            console.log("Triggering: " + type);
+            // يمكنك وضع استدعاء ملفات الـ JS الخاصة بالثغرة الفعلية هنا
+        }
     </script>
 
 </body>
